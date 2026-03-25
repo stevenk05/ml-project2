@@ -1,6 +1,13 @@
 import random
 import matplotlib.pyplot as plt
 
+trainingExamples = [["Sunny", "Warm", "Normal", "Strong", "Warm", "Same", True],
+    ["Sunny", "Warm", "High", "Strong", "Warm", "Same", True],
+    ["Rain", "Cold", "High", "Strong", "Warm", "Change", False],
+    ["Sunny", "Warm", "High", "Strong", "Cool", "Change", True]
+]
+
+maxSpecific = ['-', '-', '-', '-', '-', '-']
 
 def generate_rand_concept() -> list[str]:
     """
@@ -36,16 +43,32 @@ def generate_rand_concept() -> list[str]:
 # Find-S Algorithm Implementation
 # '-' represents the empty set symbol (no value of that attribute is allowed)
 def findS(trainingExamples):
-    maxSpecific = ['-', '-', '-', '-', '-', '-']
+    temp_hypothesis = maxSpecific
     for instance in trainingExamples:
         if(instance[6] == True):
             for i in range(6):
-                if(maxSpecific[i] == '-' or (instance[i] != maxSpecific[i] and maxSpecific[i] != '?')):
-                    if(maxSpecific[i] == '-'):
-                        maxSpecific[i] = instance[i]
+                if(temp_hypothesis[i] == '-' or (instance[i] != temp_hypothesis[i] and temp_hypothesis[i] != '?')):
+                    if(temp_hypothesis[i] == '-'):
+                        temp_hypothesis[i] = instance[i]
                     else:
-                        maxSpecific[i] = '?'
-    return maxSpecific
+                        temp_hypothesis[i] = '?'
+    return temp_hypothesis
+
+def count_iterations():
+
+    temp_hypothesis = maxSpecific
+    iterations = 0
+    random_data = generate_rand_concept()
+    print(type(random_data))
+
+    while '?' or '-' in temp_hypothesis:
+        random_data = generate_rand_concept()
+        print(random_data)
+        temp_hypothesis = findS(random_data)
+        iterations += 1
+
+    return iterations
+
 
 def main():
     """
@@ -53,9 +76,15 @@ def main():
     :return:
     """
 
-    rand_target_concept = generate_rand_concept()
-    #print(rand_target_concept)
-    pass
+    hypthesis = findS(trainingExamples)
+    print("The maximally specific hypothesis is: ", hypthesis)
+
+    print(count_iterations())
+
+    # for i in range(100):
+    #     rand_target_concept = generate_rand_concept()
+    #     print(len(rand_target_concept))
+
 
 if __name__ == "__main__":
     main()
