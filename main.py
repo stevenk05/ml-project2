@@ -1,5 +1,6 @@
 import random
 import matplotlib.pyplot as plt
+from time import sleep
 
 trainingExamples = [["Sunny", "Warm", "Normal", "Strong", "Warm", "Same", True],
     ["Sunny", "Warm", "High", "Strong", "Warm", "Same", True],
@@ -42,13 +43,13 @@ def generate_rand_concept() -> list[str]:
 
 # Find-S Algorithm Implementation
 # '-' represents the empty set symbol (no value of that attribute is allowed)
-def findS(trainingExamples):
-    temp_hypothesis = maxSpecific
+def findS(trainingExamples, temp_hypothesis = maxSpecific):
     for instance in trainingExamples:
         if(instance[6] == True):
             for i in range(6):
                 if(temp_hypothesis[i] == '-' or (instance[i] != temp_hypothesis[i] and temp_hypothesis[i] != '?')):
                     if(temp_hypothesis[i] == '-'):
+                        print("RAN")
                         temp_hypothesis[i] = instance[i]
                     else:
                         temp_hypothesis[i] = '?'
@@ -58,14 +59,16 @@ def count_iterations():
 
     temp_hypothesis = maxSpecific
     iterations = 0
-    random_data = generate_rand_concept()
-    print(type(random_data))
+    random_data = []
+    random_data.append(generate_rand_concept())
 
     while '?' or '-' in temp_hypothesis:
-        random_data = generate_rand_concept()
-        print(random_data)
-        temp_hypothesis = findS(random_data)
+        random_data = []
+        random_data.append(generate_rand_concept())
+        temp_hypothesis = findS(random_data, temp_hypothesis)
         iterations += 1
+        print(temp_hypothesis)
+        sleep(1)
 
     return iterations
 
@@ -76,8 +79,8 @@ def main():
     :return:
     """
 
-    hypthesis = findS(trainingExamples)
-    print("The maximally specific hypothesis is: ", hypthesis)
+    #hypthesis = findS(trainingExamples)
+    #print("The maximally specific hypothesis is: ", hypthesis)
 
     print(count_iterations())
 
