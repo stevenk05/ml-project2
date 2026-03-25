@@ -1,4 +1,4 @@
-import matplatlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 
 def main():
