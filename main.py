@@ -4,7 +4,7 @@
 # Date: March 31, 2026
 #
 # Description:
-# Thie project implements the Find-S algorithm to find the maximally 
+# This project implements the Find-S algorithm to find the maximally
 # specific hypothesis consistent with a set of training examples. This
 # algorithm is tested with our EnjoySport training examples from class.
 # It also conducts an experiment where random training examples 
@@ -33,7 +33,7 @@ def generate_rand_training_example() -> list[str]:
     The generate_rand_training_example() function generates a random training data from <Sunny, Warm, ?, ?, ?, ?>. as the target
     concept.
 
-    :return: A single traning example with 6 attributes and a boolean value 
+    :return: A single training example with 6 attributes and a boolean value
             indicating whether the example is a positive or negative example of the target concept
     """
 
