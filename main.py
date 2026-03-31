@@ -1,10 +1,22 @@
+# Project 2: Find-S Algorithm and Random Training Example Experiment
+# Course: CSC426-01 Machine Learning
+# Members: Brian, Tyler, Steven, and A.J.
+# Date: March 31, 2026
+#
+# Description:
+# Thie project implements the Find-S algorithm to find the maximally 
+# specific hypothesis consistent with a set of training examples. This
+# algorithm is tested with our EnjoySport training examples from class.
+# It also conducts an experiment where random training examples 
+# are generated until the Find-S algorithm converges to a specified 
+# target concept. The number of iterations required for convergence 
+# is recorded, and statistics about these iteration counts are computed and visualized.
+
 import random
 import matplotlib.pyplot as plt
-import math
 import statistics
-from time import sleep
 
-
+# EnjoySport training examples
 trainingExamples = [["Sunny", "Warm", "Normal", "Strong", "Warm", "Same", True],
     ["Sunny", "Warm", "High", "Strong", "Warm", "Same", True],
     ["Rain", "Cold", "High", "Strong", "Warm", "Change", False],
@@ -13,6 +25,7 @@ trainingExamples = [["Sunny", "Warm", "Normal", "Strong", "Warm", "Same", True],
 
 MAXSPECIFIC = ['-', '-', '-', '-', '-', '-']
 
+# the target concept that the random training examples are generated from
 target_concept = ["Sunny", "Warm", '?', '?', '?', '?']
 
 def generate_rand_training_example() -> list[str]:
@@ -50,38 +63,57 @@ def generate_rand_training_example() -> list[str]:
 
 # Find-S Algorithm Implementation
 # '-' represents the empty set symbol (no value of that attribute is allowed)
-def findS(trainingExamples, temp_hypothesis = MAXSPECIFIC.copy()):
+def findS(trainingExamples, trace_flag, curr_hypothesis = MAXSPECIFIC.copy()):
+    """
+    Core findS algorithm that produces a maximally specific hypothesis consistent with the given training examples.
+
+    :param trainingExamples: A list of training examples.
+    :param trace_flag: A flag to indicate a trace of the algorithm.
+    :param curr_hypothesis: The current hypothesis being updated, initialized to the most specific
+    :return: List of maximally specific attribute values that are consistent with the positive training examples.
+    """
+
     for instance in trainingExamples:
+        # positive training example
         if(instance[6] == True):
             for i in range(6):
-                if(temp_hypothesis[i] == '-' or (instance[i] != temp_hypothesis[i] and temp_hypothesis[i] != '?')):
-                    if(temp_hypothesis[i] == '-'):
-                        temp_hypothesis[i] = instance[i]
+                if(curr_hypothesis[i] == '-' or (instance[i] != curr_hypothesis[i] and curr_hypothesis[i] != '?')):
+                    if(curr_hypothesis[i] == '-'):
+                        curr_hypothesis[i] = instance[i]
                     else:
-                        temp_hypothesis[i] = '?'
+                        curr_hypothesis[i] = '?'
 
-            #if (trace_flag == True):
-            #print(temp_hypothesis)
-    return temp_hypothesis
+            if (trace_flag == True):
+                print(f"Current hypothesis: {curr_hypothesis}")
+    return curr_hypothesis
 
-def count_iterations():
+def random_examples_experiment():
+    """
+    Generates random training examples until the Find-S algorithm converges to the given 
+    target concept <Sunny, Warm, ?, ?, ?, ?>.
 
-    temp_hypothesis = MAXSPECIFIC.copy()
+    :return: The number of iterations (random training examples generated) required for 
+            the Find-S algorithm to converge to the target concept.
+    """
+
+    curr_hypothesis = MAXSPECIFIC.copy()
     iterations = 0
-    random_data = []
-    random_data.append(generate_rand_training_example())
 
-    while temp_hypothesis != target_concept:
+    while curr_hypothesis != target_concept:
         training_example = []
         training_example.append(generate_rand_training_example())
-        temp_hypothesis = findS(training_example, temp_hypothesis)
+        curr_hypothesis = findS(training_example, False, curr_hypothesis)
         iterations += 1
-        print(temp_hypothesis)
-        #sleep(0.5)
 
     return iterations
 
-def frequency_statistics(iteration_counts):
+def frequency_stats_histo(iteration_counts):
+    """
+    Generates a histogram from the list of iteration counts.
+
+    :param iteration_counts: A list of integers representing the number of iterations required for 
+            the Find-S algorithm to converge to the target concept across multiple runs.
+    """
     
     plt.hist(iteration_counts, bins= range(min(iteration_counts), max(iteration_counts) + 3), edgecolor='black')
     plt.xlabel('Number of Iterations')
@@ -90,6 +122,12 @@ def frequency_statistics(iteration_counts):
     plt.savefig(fname = "iteration_histogram.pdf", format='pdf')
 
 def save_stats_table_pdf(stats):
+    """
+    Generates a table of statistics (n, min, max, mode, median, mean, std deviation) and save as pdf.
+
+    :param stats: A dictionary containing the statistics
+    """
+
     fig, ax = plt.subplots(figsize=(6, 3))
     ax.axis('off')
     table_data = [
@@ -102,7 +140,7 @@ def save_stats_table_pdf(stats):
         ["Std Deviation",  f"{stats['std_dev']:.4f}"],
     ]
     table = ax.table(cellText=table_data, colLabels=["Statistic", "Value"],
-                        loc='center', cellLoc='center')
+                    loc='center', cellLoc='center')
     table.auto_set_font_size(False)
     table.set_fontsize(12)
     table.scale(1.4, 1.8)
@@ -112,6 +150,13 @@ def save_stats_table_pdf(stats):
     plt.close(fig)
 
 def compute_stats(data):
+    """
+    Computes various statistics from a list of integers
+
+    :param data: A list of integers.
+    :return: A dictionary containing the computed statistics (n, min, max, mode, median, mean, std deviation).
+    """
+
     n = len(data)
     minimum = min(data)
     maximum = max(data)
@@ -123,25 +168,21 @@ def compute_stats(data):
     return {"n": n, "min": minimum, "max": maximum, "mode": mode,
             "median": median, "std_dev": std_dev, "mean": mean}
 
-
 def main():
-    """
 
-    :return:
-    """
-
-    experiment_iterations = 100000
+    experiment_iterations = 100
     iteration_counts = []
 
-    hypothesis = findS(trainingExamples)
+    # findS using the given training examples from the EnjoySport example
+    hypothesis = findS(trainingExamples, True)
     print("The maximally specific hypothesis is: ", hypothesis)
 
-
+    # run the experiment for a specified number of iterations and collect the iteration counts
     for _ in range(experiment_iterations):
-        iteration_counts.append(count_iterations())
+        iteration_counts.append(random_examples_experiment())
 
-    print(min(iteration_counts))
-    frequency_statistics(iteration_counts)
+    # generate and save histogram and statistics table
+    frequency_stats_histo(iteration_counts)
     frequency_stats = compute_stats(iteration_counts)
     save_stats_table_pdf(frequency_stats)
 
