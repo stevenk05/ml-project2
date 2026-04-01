@@ -13,6 +13,7 @@
 # is recorded, and statistics about these iteration counts are computed and visualized.
 
 import random
+import sys
 import matplotlib.pyplot as plt
 import statistics
 
@@ -30,15 +31,13 @@ target_concept = ["Sunny", "Warm", '?', '?', '?', '?']
 
 def generate_rand_training_example() -> list[str]:
     """
-    The generate_rand_training_example() function generates a random training data from <Sunny, Warm, ?, ?, ?, ?>. as the target
+    The generate_rand_training_example() function generates a random training data from <Sunny, Warm, ?, ?, ?, ?> as the target
     concept.
 
     :return: A single training example with 6 attributes and a boolean value
             indicating whether the example is a positive or negative example of the target concept
     """
 
-    # :::NOTE:::
-    # if we don't need any neg example since find s ignores them, just remove 'sky' and 'AirTemp' form the dic
     attr_dic = {
         "Sky" : ["Sunny", "Cloudy", "Rain"],
         "AirTemp" : ["Warm", "Cold"],
@@ -73,18 +72,34 @@ def findS(trainingExamples, trace_flag, curr_hypothesis = MAXSPECIFIC.copy()):
     :return: List of maximally specific attribute values that are consistent with the positive training examples.
     """
 
+    # Output the starting hypothesis h_0 both to terminal and to an output file
+    if (trace_flag == True):
+        print(f"h_0: {curr_hypothesis}")
+        o = sys.stdout
+        with open('EnjoySport_trace.txt', 'w') as f:
+            sys.stdout = f
+            print(f"h_0: {curr_hypothesis}")
+        sys.stdout = o
+
     for instance in trainingExamples:
         # positive training example
         if(instance[6] == True):
             for i in range(6):
+                # If current attribute constrain is not satisfied by instance
                 if(curr_hypothesis[i] == '-' or (instance[i] != curr_hypothesis[i] and curr_hypothesis[i] != '?')):
                     if(curr_hypothesis[i] == '-'):
                         curr_hypothesis[i] = instance[i]
                     else:
                         curr_hypothesis[i] = '?'
 
-            if (trace_flag == True):
-                print(f"Current hypothesis: {curr_hypothesis}")
+        # Output the current hypothesis both to terminal and to an output file
+        if (trace_flag == True):
+            print(f"h_{trainingExamples.index(instance) + 1}: {curr_hypothesis}")
+            o = sys.stdout
+            with open('EnjoySport_trace.txt', 'a') as f:
+                sys.stdout = f
+                print(f"h_{trainingExamples.index(instance) + 1}: {curr_hypothesis}")
+            sys.stdout = o
     return curr_hypothesis
 
 def random_examples_experiment():
@@ -123,7 +138,7 @@ def frequency_stats_histo(iteration_counts):
 
 def save_stats_table_pdf(stats):
     """
-    Generates a table of statistics (n, min, max, mode, median, mean, std deviation) and save as pdf.
+    Generates a table of statistics (n, min, max, mode, median, mean, std deviation) and saves it as pdf.
 
     :param stats: A dictionary containing the statistics
     """
@@ -174,17 +189,26 @@ def main():
     iteration_counts = []
 
     # findS using the given training examples from the EnjoySport example
+    print("\nVerification of Correct Trace for EnjoySport Example (also saved as a .txt file):")
     hypothesis = findS(trainingExamples, True)
+    # Output the maximally specific hypothesis both to terminal and to an output file
     print("The maximally specific hypothesis is: ", hypothesis)
+    o = sys.stdout
+    with open('EnjoySport_trace.txt', 'a') as f:
+        sys.stdout = f
+        print("The maximally specific hypothesis is: ", hypothesis)
+    sys.stdout = o
 
     # run the experiment for a specified number of iterations and collect the iteration counts
     for _ in range(experiment_iterations):
         iteration_counts.append(random_examples_experiment())
+    print(f"\nAll {experiment_iterations} experiments finished")
 
     # generate and save histogram and statistics table
     frequency_stats_histo(iteration_counts)
     frequency_stats = compute_stats(iteration_counts)
     save_stats_table_pdf(frequency_stats)
+    print("Histogram and data table saved")
 
 
 if __name__ == "__main__":
