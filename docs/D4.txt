@@ -38,7 +38,11 @@ the assignment of any confusion.
 • How did your team function? Include details regarding what each team member contributed, 
 how the team communicated with each other, and how team software development & design was accomplished.
 
-Our team functioned well together and everyone contributed an equal amount towards the final product. We communicated through text messages and every member of the team communicated very effectively. Almost all of our software development was done over our two in person meetings we had. Everyone attended and contributed towards the project during those meetings in both ideas and programming. We also mostly used pair programming during the meetings.
+Our team functioned well together and everyone contributed an equal amount towards the final product. 
+We communicated through text messages and every member of the team communicated very effectively. 
+Almost all of our software development was done over our two in person meetings we had. Everyone 
+attended and contributed towards the project during those meetings in both ideas and programming. 
+We also mostly used pair programming during the meetings.
 Individual contributions:
 Brian: documentation, wrote the experiment code and helped write the plotting code
 Tyler: helped write the experiment and plotting code and wrote training data randomizer
