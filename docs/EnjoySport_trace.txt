@@ -1,0 +1,6 @@
+h_0: ['-', '-', '-', '-', '-', '-']
+h_1: ['Sunny', 'Warm', 'Normal', 'Strong', 'Warm', 'Same']
+h_2: ['Sunny', 'Warm', '?', 'Strong', 'Warm', 'Same']
+h_3: ['Sunny', 'Warm', '?', 'Strong', 'Warm', 'Same']
+h_4: ['Sunny', 'Warm', '?', 'Strong', '?', '?']
+The maximally specific hypothesis is:  ['Sunny', 'Warm', '?', 'Strong', '?', '?']
