@@ -18,7 +18,8 @@ import matplotlib.pyplot as plt
 import statistics
 
 # EnjoySport training examples
-trainingExamples = [["Sunny", "Warm", "Normal", "Strong", "Warm", "Same", True],
+trainingExamples = [
+    ["Sunny", "Warm", "Normal", "Strong", "Warm", "Same", True],
     ["Sunny", "Warm", "High", "Strong", "Warm", "Same", True],
     ["Rain", "Cold", "High", "Strong", "Warm", "Change", False],
     ["Sunny", "Warm", "High", "Strong", "Cool", "Change", True]
@@ -134,7 +135,7 @@ def frequency_stats_histo(iteration_counts):
     plt.xlabel('Number of Iterations')
     plt.ylabel('Frequency')
     plt.title('Distribution of Iterations to Converge to Target Concept')
-    plt.savefig(fname = "iteration_histogram.pdf", format='pdf')
+    plt.savefig(fname = "../docs/iteration_histogram.pdf", format='pdf')
 
 def save_stats_table_pdf(stats):
     """
@@ -161,7 +162,7 @@ def save_stats_table_pdf(stats):
     table.scale(1.4, 1.8)
     ax.set_title("Statistics: Examples Required to Learn Target Concept", pad=20)
     plt.tight_layout()
-    plt.savefig(fname = "stats_table.pdf", format='pdf')
+    plt.savefig(fname = "../docs/stats_table.pdf", format='pdf')
     plt.close(fig)
 
 def compute_stats(data):
@@ -185,7 +186,7 @@ def compute_stats(data):
 
 def main():
 
-    experiment_iterations = 100
+    experiment_iterations = 1000
     iteration_counts = []
 
     # findS using the given training examples from the EnjoySport example
