@@ -1,0 +1,57 @@
+• What was easy about this assignment?
+
+The implementation of the actual Find-S algorithm was easy because it doesn’t 
+involve many lines of code. Also being given the pseudocode during lecture made 
+this part especially easy. It was nice to be able to go back into our notebooks 
+and have the answer to the assignment waiting on us.
+
+
+
+• What was challenging about this assignment, or parts that you couldn’t get working correctly?
+
+A challenging part of this assignment was working with some different parts of 
+the matplotlib. Our group never used some of the features before, so it took a 
+bit of learning to get the histogram and statistics table to work properly. Another 
+challenge we faced was a few subtleties of python that our group never encountered 
+prior, so it took some time to work through and debug.
+
+
+
+• What did you like about this assignment?
+
+It was interesting watching our algorithm learn the information and what we were 
+able to do with a relatively simple algorithm. During development, we temporarily 
+included a sleep(0.1) call and this let us literally watch iterations happen one 
+at a time which was very interesting.
+
+
+
+• What did you dislike about this assignment?
+
+One thing the team disliked about the assignment was some of the ambiguity in the 
+instructions for this assignment. We can imagine it isn’t only our team believing 
+that the task/deliverable descriptions could’ve included some more details to relieve 
+the assignment of any confusion.
+
+
+
+• How did your team function? Include details regarding what each team member contributed, 
+how the team communicated with each other, and how team software development & design was accomplished.
+
+Our team functioned well together and everyone contributed an equal amount towards the final product. We communicated through text messages and every member of the team communicated very effectively. Almost all of our software development was done over our two in person meetings we had. Everyone attended and contributed towards the project during those meetings in both ideas and programming. We also mostly used pair programming during the meetings.
+Individual contributions:
+Brian: documentation, wrote the experiment code and helped write the plotting code
+Tyler: helped write the experiment and plotting code and wrote training data randomizer
+Steven: debugging, helped write the experiment and foundation of plotting code
+A.J: wrote main Find-S function, documentation, helped write the experiment and plotting code
+
+
+
+• What did you learn from this assignment?
+
+In this assignment, we learned how to combine ideas in a collaborative coding 
+environment through pair-programming sessions and git/github. We used git for version 
+control to allow team members to work on the same codebase while developing independent 
+features. When in person, we would be clashing ideas against each other to determine 
+what the best path of actions was, allowing our intentions to be clear and known across
+the entire team.
